@@ -26,6 +26,13 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
         return new ResponseEntity(userService.getUserById(id), HttpStatus.OK);
     }
+
+    @GetMapping("/page")
+    public ResponseEntity<User> getUserByPagination(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size,
+                                                    @RequestParam(defaultValue = "id") String sortBy){
+        return new ResponseEntity(userService.getAllUsersByPage(page,size,sortBy), HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<User> addUsers(@RequestBody User user) {
         return new ResponseEntity(userService.CreateUser(user),HttpStatus.CREATED);

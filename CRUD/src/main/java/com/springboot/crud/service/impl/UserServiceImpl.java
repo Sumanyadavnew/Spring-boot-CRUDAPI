@@ -5,6 +5,10 @@ import com.springboot.crud.exception.NoSuchUserExistException;
 import com.springboot.crud.repository.UserRepository;
 import com.springboot.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,6 +55,11 @@ public class UserServiceImpl implements UserService {
         }else{
            throw new NoSuchUserExistException("User Not Found!");
         }
-//        existingUser.ifPresentOrElse((i) -> repository.deleteById(id), () ->  new NoSuchUserExistException("User Not Found!"));
+    }
+
+    @Override
+    public Page<User> getAllUsersByPage(int page, int size, String sort) {
+        Pageable pagination = PageRequest.of(page,size, Sort.by(sort));
+        return repository.findAll(pagination);
     }
 }
